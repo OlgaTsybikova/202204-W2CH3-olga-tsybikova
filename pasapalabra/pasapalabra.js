@@ -1,10 +1,7 @@
-let userName = {
+const userName = {
     name: '',
     points: '',
 };
-
-userName.name = prompt('Please enter your name: ')
-userName.name ? console.log(`Hello, ${userName.name}!`) : console.log('Hello!');
 
 const questions = [
 
@@ -63,17 +60,18 @@ const questions = [
 
     { letter: "z", answer: "zen", status: 0, question: "CON LA Z. Escuela de budismo que busca la experiencia de la sabiduría más allá del discurso racional"}, ]
 
-newQuestions = [];
+const newQuestions = [];
 class Questions {
         status = 0;
-        constructor(letter, answer, question){
-            this.letter = letter;
-            this.answer = answer;
-            this.question = question;
-            newQuestions.push(this)
+        
+        constructor(letter, answer, question) {
+          this.letter = letter;
+          this.answer = answer;
+          this.question = question;
+
+          newQuestions.push(this)
         }
     }
-    
     const questA = new Questions ('a', 'abecedario', 'CON LA A. Serie ordenada de las letras de un idioma.')
     const questB = new Questions ('b', 'banco', 'CON LA B. Asiento, con respaldo o sin él, en que pueden sentarse dos o más personas.')
     const questC = new Questions ('c', 'coronavirus', 'CON LA C. Virus que produce diversas enfermedades respiratorias en los seres humanos, desde el catarro a la neumonía o la COVID.')
@@ -114,69 +112,47 @@ switch(randomChoiceQuestions){
     randomChoiceQuestions = newQuestions;
     break; 
     case 2: 
-    randomChoiceQuestions = questions
-    default: 
-    randomChoiceQuestions = newQuestions;
+    randomChoiceQuestions = questions;
     break;
+    default: 
+    randomChoiceQuestions = newQuestions;  
 }
 
-const pasapalabraGame = () =>  { 
-    alert("Let's begin the first round of PASAPALABRA!")
+const pasapalabraGame = () => { 
 let askQuestions;
 for (let i = 0; i < randomChoiceQuestions.length; i ++) {
-    
-    do{
-        askQuestions = prompt(`Question ${randomChoiceQuestions[i].question}.`)
-    }while(!askQuestions);
-
     if (randomChoiceQuestions[i].answer === askQuestions.toLowerCase()) {
-        userName.points = userName.points + 1
-        console.log(`Correct, you have ${userName.points} Point(s).`);
+        userName.points += 1;
     } else if (askQuestions.toLowerCase() === 'pasapalabra'){
         randomChoiceQuestions[i].status = 1;
-        console.log('Okay, we will leave this question for another round.')
     } else if (askQuestions.toLowerCase() === 'end'){
-        console.log(`Thank you for playing with us. You have guessed ${userName.points} letter(s). And you have ${wrongAnswers} wrong answer(s).`)
-        alert('The game is over.');
-        break;
+      return 'end';
     } else if (askQuestions === '' || askQuestions.toLowerCase() !== randomChoiceQuestions[i].answer){
-        wrongAnswers = wrongAnswers + 1
-        alert(`Wrong!The answer is ${randomChoiceQuestions[i].answer} .`)
+        wrongAnswers += 1;
+        return randomChoiceQuestions[i].answer;
+      }
     }
-    
-}
-}
 
 const nextRound = () => {
-    alert('Attention!The new round begins!')
     for (let i = 0; i < randomChoiceQuestions.length; i ++){
-        let askQuestions;
         if (randomChoiceQuestions[i].status === 1){
-            askQuestions = prompt( `Question ${randomChoiceQuestions[i].question} .`)
-
             if (randomChoiceQuestions[i].answer === askQuestions.toLowerCase()) {
-                userName.points = userName.points + 1
-                console.log(`Correct, you have ${userName.points} Point(s).`);
+                userName.points += 1;
                 randomChoiceQuestions[i].status = 0;
             } else if (askQuestions.toLowerCase() === 'pasapalabra'){
                 randomChoiceQuestions[i].status = 1;
-                console.log('Okay, we will leave this question for another round.')
             }else if (askQuestions.toLowerCase() === 'end'){
-                console.log(`Thank you for playing with us. You have guessed ${userName.points} letter(s). And you have ${wrongAnswers} wrong answer(s).`)
-                alert('The game is over.');
                 break;
             } else if (askQuestions === null || askQuestions.toLowerCase() !== randomChoiceQuestions[i].answer){
-                wrongAnswers = wrongAnswers + 1
-                randomChoiceQuestions[i].status = 0
-                alert(`Wrong!The answer is ${randomChoiceQuestions[i].answer} .`)
+                wrongAnswers += 1;
+                randomChoiceQuestions[i].status = 0;
             }  
         }
     }
-
 }
 const playerslistFunction = () =>{
 
-    let playersList = [
+    const playersList = [
     { name: 'Chewbacca', points: 21 },
     { name: 'Darth', points: 17 },
     { name: 'Luke', points: 10 },
@@ -186,6 +162,7 @@ const playerslistFunction = () =>{
   ];
   playersList.push(userName); 
   playersList.sort(function (a, b) {
+    
     if (a.points < b.points) {
       return 1;
     }
@@ -194,27 +171,16 @@ const playerslistFunction = () =>{
     }
     return 0;
   });
-  console.log(playersList);
+  
 }
-
 
 function pasapalabraEntire(){
 pasapalabraGame();
-alert('The first round is over. Please prepare for the next round.')
  for (let i = 0; i < randomChoiceQuestions.length; i ++){
     if (randomChoiceQuestions[i].status === 1) {
          nextRound();
         }
-    }
-
-alert('There are no more questions. Now you can see the rankings.')  
+    } 
 playerslistFunction();
 }
-
 pasapalabraEntire();
-
-if (confirm("Would you like to play again?") == true) {
-    pasapalabraEntire();
-  } else {
-    console.log("Bye!")
-  }
