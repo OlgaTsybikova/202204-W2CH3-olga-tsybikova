@@ -20,7 +20,6 @@ if(isNaN(a) || isNaN(b)) {
     } else if ( b == '' && sign == '') {
         result = Math.sqrt(a);
     }
-    Prompt'Your result is  ' + result.toFixed(2));
-    
+    prompt('Your result is  ' + result.toFixed(2));
 } 
 
